@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery实现微信长按识别二维码功能</title>
+    <script src="./js/jquery-3.2.1.min.js"></script>
+    <script src="./js/qrcode.min.js"></script>
+</head>
+<body>
+	<div id="qrDiv" style="display: none"></div>
+	<div id="imgQrDiv"></div>
+	<script>
+		// 生成二维码，这个时候生成的二维码在微信中长安没任何反应，因为qrcode生成的是canvas标签而不是img标签
+		$("#qrDiv").qrcode({ 
+			width: 120, 
+			height:120, 
+			text: '生成二维码的内容'
+		});
+		// 将canvas标签转换为img标签
+		function convertCanvasToImage(canvas) { 
+			var image = new Image(); 
+			image.src = canvas.toDataURL("image/png");  // canvas.toDataURL 返回的是一串Base64编码的URL，当然,浏览器自己肯定支持 
+			return image; 
+		} 
+		var mycanvas=document.getElementsByTagName('canvas')[0]; 
+		// 将转换后的img标签插入到html中 
+		var img=convertCanvasToImage(mycanvas); 
+		$('#imgQrDiv').append(img);
+	</script>
+</body>
+</html>
